@@ -3,12 +3,13 @@
 <p align="center">
   <img src="logo.png" width="300">
 </p>
-<br><br>
+<br>
 Podcasts have been exploding with popularity lately, and it's getting harder to sift through it all to get to the content you really care about. Resonance.ai is our attempt at creating the podcast companion we've always wanted. Resonance.ai lets you browse through and play all your favorite podcasts, and create your own snippets of your favorite parts for those key takeaways. In addition, Resonance.ai leverages state-of-the-art natural language processing (NLP) artifical intelligence to find the best matches to your taste as well as to craft succinct, thoughtful summaries of podcasts before sinking in the 30 minutes they would otherwise demand.
 <br><br>
 <i>Can you hear the future? It's Resonance.ai, using cutting edge artificial intelligence to help you enjoy and discover podcasts just for you.</i>
 <br><br>
-How to view the summaries and podcast similarities for the 14 podcasts used in demo:
+How to view the summaries and podcast similarities for the 14 podcasts used in demo:<br><br>
+
 ```python
 import pickle
 
@@ -22,10 +23,15 @@ cosine_distances = pickle.load(open('cosine_distances.pkl', 'rb'))  # Dictionary
 How to run the GUI:
 
 Clone the git repository to a directory 'dir',
+
 Navigate to directory 'dir\RUhacks-master\Prototype - Player\Protov006\Protov005\',
+
 Download the podcast .WAV files (over 1GB!) from https://drive.google.com/open?id=1bi9MVp3bBL5s6Y1ZzEA8rWZJ5VjtHInk ,
+
 Unzip them into the same directory,
+
 then run, in a shell with Python 3+ installed:
+
 ```python
 python Hackathon.py
 ```
