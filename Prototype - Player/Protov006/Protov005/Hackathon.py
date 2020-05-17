@@ -3,7 +3,7 @@
 """
 Created on Sat May 16 00:04:12 2020
 
-@author: binhnguyen
+@author: binhnguyen, jcr179
 """
 
 
@@ -27,7 +27,14 @@ from tkinter import simpledialog
 from scipy.io import wavfile
 import shutil
 
+# Carlo adds: (For reading data in)
+import pickle
 
+# Carlo adds: (Reading data in)
+data_directory = os.getcwd()
+distances = pickle.load(open(os.path.join(data_directory, 'cosine_distances.pkl'), 'rb'))
+summaries = pickle.load(open(os.path.join(data_directory, 'summaries.pkl'), 'rb'))
+metadata = pickle.load(open(os.path.join(data_directory, 'metadata.pkl'), 'rb'))
 
 root = tk.ThemedTk()
 root.get_themes()                 # Returns a list of all themes that can be set
@@ -138,15 +145,19 @@ def decr():
     selected_song = playlistbox.curselection()
     selected_song = int(selected_song[0])
     play_it = playlist[selected_song]
-    target = (play_it[0:play_it.rindex ('.')] + '.txt')
+    target = int(play_it[1+play_it.rindex('/'):play_it.rindex ('.')])
     
     
-    print (target)
+    #print ('TARGET: ', target)
+    """
     # Read Text file
     f = open(target, "r")
     # f  = open ('art_A journey through the mind of an artist Dustin Yellin.mp3.txt', 'r')
     text = f.read()
     f.close()
+    """
+    title, author = metadata[target]
+    text = title + ' by ' + author + ' (' + str(target) + ')\n\n' + summaries[target]
     
     # art_A journey through the mind of an artist Dustin Yellin.mp3.txt
     T.insert(tk1.END, text)
@@ -162,22 +173,54 @@ descBtn.pack(side= BOTTOM)
 # I created a gui for you already
 # Search of functions related to tk gui 
 
-def sim ():
+# Carlo adds: knn function 
+def knn(query_id, k, distances):
+    d = sorted(distances[query_id])
+    closest = []
+    for dist in d:
+        closest.append(distances[query_id].index(dist))
+    return closest[1:k+1]
+
+def sim (query_id):
+    # to do : figure out how to pass argument to it 
+    # to do : figure out how to get currently selected playlist 
+    
     W = Tk()
     W.geometry("450x500")
     
-    # Delete starting from here
+    # Carlo modifies: return k=2 most similar 
     S = tk1.Scrollbar(W)
     T = tk1.Text(W, height=4, width=50)
     T.pack(ipady=220, ipadx=30)
-    text = ("Holder for whatever you need to do to display the similarities")
+    
+    closest = knn(query_id, 2, distances)
+    
+    textToShow = ""
+    for i in range(len(closest)):
+        title, author = metadata[closest[i]]
+        
+        textToShow += title + ' by ' + author + ' (' + str(closest[i]) + ')'
+        
+        if i < len(closest) - 1:
+            textToShow += '\n\n'
+    
+    text = (textToShow)
+    
     T.insert(tk1.END, text)
-    # Delete to here to get rid of text
     
     mainloop()
+    
+def get_target():
+    selected_song = playlistbox.curselection()
+    selected_song = int(selected_song[0])
+    play_it = playlist[selected_song]
+    target = int(play_it[1+play_it.rindex('/'):play_it.rindex ('.')])
+    
+    sim(target)
+    
 
     
-simBtn = ttk.Button(leftframe, text="Similar Podcasts", command=sim)
+simBtn = ttk.Button(leftframe, text="Similar Podcasts", command=get_target)
 simBtn.pack(side= BOTTOM)
 
 ####################### OPR #######################
