@@ -7,7 +7,11 @@
 Podcasts have been exploding with popularity lately, and it's getting harder to sift through it all to get to the content you really care about. Resonance.ai is our attempt at creating the podcast companion we've always wanted. Resonance.ai lets you browse through and play all your favorite podcasts, and create your own snippets of your favorite parts for those key takeaways. In addition, Resonance.ai leverages state-of-the-art natural language processing (NLP) artifical intelligence to find the best matches to your taste as well as to craft succinct, thoughtful summaries of podcasts before sinking in the 30 minutes they would otherwise demand.
 <br><br>
 <i>Can you hear the future? It's Resonance.ai, using cutting edge artificial intelligence to help you enjoy and discover podcasts just for you.</i>
+
 <br><br>
+
+The AI pipeline is contained entirely in https://github.com/salehi2/RUhacks/blob/master/RU_Hacks_2020_podcast_processing.ipynb . See here for implementation of the pipeline from podcast audio to embedding vectors. BERT encoding is in a separate script, 'get_embeddings.py'
+
 How to view the summaries and podcast similarities for the 14 podcasts used in demo:<br><br>
 
 ```python
